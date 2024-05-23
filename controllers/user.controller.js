@@ -4,6 +4,7 @@ import User from "../models/user.model.js";
 import bycript from "bcryptjs";
 import randomstring from "randomstring";
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
 
 const mailSender = async (name, email, token) => {
   try {
@@ -74,9 +75,16 @@ export const signIn = async (req, res, next) => {
       if (!response) {
         res.status(401).json("wrong credentials");
       } else {
+        const token = jwt.sign({id: user._id }, process.env.SECRET_KEY);
+
         const { password, ...rest } = user._doc;
         console.log(rest);
-        res.status(200).json(rest);
+        res
+          .status(200)
+          .cookie("acesses_token", token, {
+            httpOnly: true,
+          })
+          .json(rest);
       }
     });
   }
