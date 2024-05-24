@@ -68,3 +68,31 @@ export const deletePost = async (req, res, next) => {
     next(error);
   }
 };
+
+export const likePost = async (req, res, next) => {
+  const { userID, postID } = req.params;
+  try {
+    const post = await Post.findById(postID);
+    if (!post) {
+      next(errorHandler(404, "post not found"));
+    }
+    const liked = post.likes.includes(userID);
+    if (liked) {
+      post.likes.pop(userID);
+      post.like -= 1;
+      post
+        .save()
+        .then((response) => res.status(200).json(response))
+        .catch((err) => res.status(400).json(err));
+    } else {
+      post.likes.push(userID);
+      post.like += 1;
+      post
+        .save()
+        .then((response) => res.status(200).json(response))
+        .catch((err) => res.status(400).json(err));
+    }
+  } catch (error) {
+    next(error);
+  }
+};

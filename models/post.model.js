@@ -5,7 +5,8 @@ const postSchema = new Schema(
     title: { type: String, require: true },
     userID: { type: String, require: true },
     content: { type: String, require: true },
-    likes: { type: Number, default: 0 },
+    like: { type: Number, default: 0 },
+    likes: { type: Array, default: [] },
     photoURL: {
       type: String,
       default:

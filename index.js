@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import UserRouter from "./routers/user.router.js";
 import PostRouter from "./routers/post.route.js";
+import CommentRouter from "./routers/comment.route.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.listen(process.env.PORT, (req, res) => {
 
 app.use("/api/user", UserRouter);
 app.use("/api/post", PostRouter);
+app.use("/api/comment", CommentRouter);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const errMessege = err.message || "Interanl server error";
