@@ -5,6 +5,7 @@ import {
   signIn,
   signUp,
 } from "../controllers/user.controller.js";
+import { isAuth } from "../utils/isAuth.js";
 const router = express.Router();
 
 router
